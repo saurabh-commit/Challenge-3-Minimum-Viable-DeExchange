@@ -1,0 +1,1 @@
+module.exports = [{"inputs":[{"internalType":"address","name":"token_addr","type":"address"}],"stateMutability":"nonpayable","type":"constructor"}]
