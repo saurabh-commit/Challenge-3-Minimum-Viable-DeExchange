@@ -19,7 +19,7 @@ const tryToDisplay = (thing)=>{
 
 
 export default function Contract(props) {
-
+  // console.log("Contract Local Provider",props.provider)
   const contracts = useContractLoader(props.provider);
   const contract = contracts?contracts[props.name]:""
   const address = contract?contract.address:""
@@ -34,19 +34,19 @@ export default function Contract(props) {
 
   useEffect(()=>{
     const loadDisplay = async ()=>{
-      //console.log("CONTRACT",contract)
+      // console.log("CONTRACT",contract)
       if(contract){
         let nextDisplay = []
         let displayed = {}
         for(let f in contract.interface.functions){
 
           let fn = contract.interface.functions[f]
-          //console.log("FUNCTION",fn.name,fn)
+          // console.log("FUNCTION",fn.name,fn)
 
           if(props.show && props.show.indexOf(fn.name) < 0){
             //do nothing
           } else if(!displayed[fn.name] && fn.type=="call" && fn.inputs.length===0){
-            //console.log("PUSHING",fn.name)
+            // console.log("PUSHING",fn.name)
             displayed[fn.name]=true
             nextDisplay.push(
               <div>
@@ -60,8 +60,8 @@ export default function Contract(props) {
               </div>
             )
           }else if(!displayed[fn.name] && ( fn.type==="call" || fn.type === "transaction" ) ){
-            console.log("RENDERING",fn)
-            //console.log("CALL WITH ARGS",fn.name,fn)
+            // console.log("RENDERING",fn)
+            // console.log("CALL WITH ARGS",fn.name,fn)
             displayed[fn.name]=true
             let inputs = []
             for(let i in fn.inputs){
@@ -85,7 +85,7 @@ export default function Contract(props) {
               )
             }
 
-            //console.log("VALUE OF ",fn.name, "IS",values[fn.name])
+            console.log("VALUE OF ",fn.name, "IS",values[fn.name])
 
             let buttonIcon = "📡"
             let afterForm = ""

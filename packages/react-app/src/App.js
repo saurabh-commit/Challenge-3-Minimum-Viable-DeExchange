@@ -8,10 +8,12 @@ import { Row, Col } from 'antd';
 import { useExchangePrice, useGasPrice, useContractLoader } from "./hooks"
 import { Header, Account, Provider, Faucet, Ramp, Contract, TokenBalance } from "./components"
 import  DEX from "./DEX.js"
+// require('dotenv').config();
 
 const mainnetProvider = new ethers.providers.InfuraProvider("mainnet","2717afb6bf164045b5d5468031b93f87")
 const localProvider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_PROVIDER?process.env.REACT_APP_PROVIDER:"http://localhost:8545")
-
+// console.log("process.env.REACT_APP_PROVIDER", process.env.REACT_APP_PROVIDER)
+// console.log("localProvider", localProvider)
 function App() {
 
   const [address, setAddress] = useState();
@@ -36,17 +38,34 @@ function App() {
         <TokenBalance name={"Balloons"} img={"🎈"} address={address} contracts={readContracts} />
       </div>
 
-      <Contract
-        name={"DEX"}
-        provider={injectedProvider}
+      <DEX
         address={address}
+        injectedProvider={injectedProvider}
+        localProvider={localProvider}
+        mainnetProvider={mainnetProvider}
+        readContracts={readContracts}
+        price={price}
       />
 
       <Contract
+        title={"🎈 Balloons"}
+        name={"Balloons"}
+        show={["balanceOf","approve"]}
+        provider={localProvider}
+        address={address}
+      />
+
+      {/* <Contract
+        name={"DEX"}
+        provider={injectedProvider}
+        address={address}
+      /> */}
+
+      {/* <Contract
         name={"Balloons"}
         provider={injectedProvider}
         address={address}
-      />
+      /> */}
 
 
       <div style={{position:'fixed',textAlign:'right',right:0,bottom:20,padding:10}}>

@@ -13,7 +13,7 @@ const contractName = "DEX"
 const tokenName = "Balloons"
 
 export default function DEX(props) {
-
+  // console.log("DEX Local Provider",props.localProvider)
   const tx = Transactor(props.injectedProvider,props.gasPrice)
 
   const localBlockNumber = useBlockNumber(props.localProvider)

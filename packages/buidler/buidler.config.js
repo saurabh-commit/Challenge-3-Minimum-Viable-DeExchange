@@ -1,3 +1,7 @@
+// require('dotenv').config();
+// const fs = require("fs");
+// require("@nomiclabs/hardhat-waffle");
+
 const { usePlugin } = require('@nomiclabs/buidler/config')
 usePlugin("@nomiclabs/buidler-truffle5");
 
@@ -91,17 +95,50 @@ async function addr(addr) {
   }
 }
 
+// function mnemonic() {
+//   try {
+//     return fs.readFileSync("./mnemonic.txt").toString().trim();
+//   } catch (e) {
+//     if (defaultNetwork !== "localhost") {
+//       console.log(
+//         "☢️ WARNING: No mnemonic file created for a deploy account. Try `yarn run generate` and then `yarn run account`."
+//       );
+//     }
+//   }
+//   return "";
+// }
+
 module.exports = {
   defaultNetwork: 'localhost',
   networks: {
     localhost: {
-      //url: 'https://rinkeby.infura.io/v3/2717afb6bf164045b5d5468031b93f87',
+      // url: 'https://rinkeby.infura.io/v3/2717afb6bf164045b5d5468031b93f87',
       url: 'http://localhost:8545',
       /*accounts: {
         mnemonic: "**SOME MNEMONIC**"
       },*/
     },
   },
+  networks: {
+    // rinkeby: {
+    //   // url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
+    //   url: `https://rinkeby.infura.io/v3/6fc2609506e84d5598b047e739516f41`,
+    //   // accounts: [`0x${process.env.RINKEBY_PRIVATE_KEY}`],
+    //   accounts: [`0x9E7C593CCf40aB030bfb08D816505B8B55B20712`],
+    // },
+
+    // rinkeby: {
+    //   url: "https://rinkeby.infura.io/v3/0x9E7C593CCf40aB030bfb08D816505B8B55B20712", // <---- YOUR INFURA ID! (or it won't work)
+      
+    //    //    url: "https://speedy-nodes-nyc.moralis.io/XXXXXXXXXXXXXXXXXXXXXXX/eth/rinkeby", // <---- YOUR MORALIS ID! (not limited to infura)
+
+    //   accounts: {
+    //     mnemonic: mnemonic(),
+    //   },
+    // },
+  },
+
+
   solc: {
     version : "0.6.6",
     optimizer: {
