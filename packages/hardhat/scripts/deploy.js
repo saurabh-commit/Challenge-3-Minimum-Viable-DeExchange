@@ -45,6 +45,19 @@ const main = async () => {
     value: ethers.utils.parseEther("0.001")
   })
   */
+  // const deployerWallet = ethers.provider.getSigner()
+  // console.log("\n\n deployerWallet \n", deployerWallet);
+
+  // const dex = await deploy("YourDEX",[yourContract.address])
+
+  // // paste in your address here to get 10 balloons on deploy:
+  // await yourContract.transfer("0x9E7C593CCf40aB030bfb08D816505B8B55B20712",""+(10*10**18))
+
+  // // uncomment to init DEX on deploy:
+  // console.log("Approving DEX ("+dex.address+") to take Rabbit from main account...")
+  // await yourContract.approve(dex.address,ethers.utils.parseEther('100'))
+  // console.log("INIT exchange...")
+  // await dex.init(ethers.utils.parseEther('5'),{value:ethers.utils.parseEther('5')})
 
   /*
   //If you want to send some ETH to a contract on deploy (make your constructor payable!)

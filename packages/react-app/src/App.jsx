@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import Web3Modal from "web3modal";
 import "./App.css";
-import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch } from "./components";
+import { Account, Contract, Faucet, GasGauge, Header, Ramp, ThemeSwitch, TokenBalance } from "./components";
 import { INFURA_ID, NETWORK, NETWORKS } from "./constants";
 import { Transactor } from "./helpers";
 import {
@@ -17,11 +17,12 @@ import {
   useEventListener,
   useExchangePrice,
   useGasPrice,
-  useOnBlock,
+  // useOnBlock,
   useUserSigner,
 } from "./hooks";
 // import Hints from "./Hints";
 import { ExampleUI, Hints, Subgraph } from "./views";
+import  DEX from "./DEX.js";
 
 const { ethers } = require("ethers");
 /*
@@ -44,7 +45,8 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+// const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.rinkeby; 
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -68,6 +70,7 @@ const localProviderUrl = targetNetwork.rpcUrl;
 const localProviderUrlFromEnv = process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : localProviderUrl;
 if (DEBUG) console.log("🏠 Connecting to provider:", localProviderUrlFromEnv);
 const localProvider = new ethers.providers.StaticJsonRpcProvider(localProviderUrlFromEnv);
+// const localProvider = new ethers.providers.JsonRpcProvider(localProviderUrlFromEnv);
 
 // 🔭 block explorer URL
 const blockExplorer = targetNetwork.blockExplorer;
@@ -187,9 +190,9 @@ function App(props) {
   const mainnetContracts = useContractLoader(mainnetProvider);
 
   // If you want to call a function on a new block
-  useOnBlock(mainnetProvider, () => {
-    console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
-  });
+  // useOnBlock(mainnetProvider, () => {
+  //   console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
+  // });
 
   // Then read your DAI balance like:
   const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [
@@ -374,6 +377,14 @@ function App(props) {
       </div>
     );
   }
+  // console.log("address", address) 
+  // console.log("readContracts", readContracts) 
+  // const YContract = "YourContract"
+
+  //           // console.log("readContracts.YourContract.address", typeof(readContracts), readContracts.YourContract.address) 
+  //           console.log("price", price)
+  //           console.log("localProvider", localProvider)  
+
 
   return (
     <div className="App">
@@ -442,7 +453,20 @@ function App(props) {
                 and give you a form to interact with it locally
             */}
 
-            <Contract
+            {/* <Account
+                address={address}
+                localProvider={localProvider}
+                // userProvider={userProvider}
+                mainnetProvider={mainnetProvider}
+                price={price}
+                web3Modal={web3Modal}
+                loadWeb3Modal={loadWeb3Modal}
+                logoutOfWeb3Modal={logoutOfWeb3Modal}
+                blockExplorer={blockExplorer}
+            /> */}
+
+            <TokenBalance name={"YourContract"} img={"🐰"} address={address} contracts={readContracts} />
+            {/* <Contract
               name="YourDEX"
               signer={userSigner}
               provider={localProvider}
@@ -454,8 +478,26 @@ function App(props) {
               signer={userSigner}
               provider={localProvider}
               address={address}
-              blockExplorer={blockExplorer}
+              blockExplorer={blockExplorer} */}
             />
+            
+            <DEX
+              address={address}
+              injectedProvider={injectedProvider}
+              localProvider={localProvider}
+              mainnetProvider={mainnetProvider}
+              readContracts={readContracts}
+              price={price}   
+            />
+
+            {/* <Contract
+              title={"🐰 Rabbits"}
+              name={"YourContract"}
+              show={["balanceOf","approve"]}
+              provider={localProvider}
+              address={address}
+            /> */}
+
           </Route>
           <Route path="/hints">
             <Hints

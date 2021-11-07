@@ -12,13 +12,35 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log: true,
   });
 
-  await deploy("YourDEX", {
+  const dex = await deploy("YourDEX", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     args: [ tokenDeployResult.address ],
     log: true,
   });
 
+  // const yourContract = await deploy("YourContract");
+  const deployerWallet = ethers.provider.getSigner()
+  console.log("\n\n deployerWallet \n", deployerWallet);
+  const balance  =  await ethers.provider.getBalance("0x22d85e39bDE1D777df05F602B03000CF063B7Bb7");
+  console.log("balance", balance)
+  const network =  await ethers.provider.getNetwork()
+  console.log("network", network)
+
+  // const dex = await deploy("YourDEX",[yourContract.address])
+  // const yourToken = await deployments.get("YourToken");
+  const token = await ethers.getContractAt("YourContract", tokenDeployResult.address);
+  // const result = await token.transfer( "0x9E7C593CCf40aB030bfb08D816505B8B55B20712", ethers.utils.parseEther("1000") );
+  // paste in your address here to get 10 balloons on deploy:
+  // const result = await token.transfer("0x9E7C593CCf40aB030bfb08D816505B8B55B20712",""+(10*10**18))
+  const result = await token.transfer("0x34aA3F359A9D614239015126635CE7732c18fDF3",""+(10*10**18))
+
+  // uncomment to init DEX on deploy:
+  console.log("Approving DEX ("+dex.address+") to take Rabbit from main account...")
+  await token.approve(dex.address,ethers.utils.parseEther('100'))
+  console.log("INIT exchange...")
+  const DEX = await ethers.getContractAt("YourDEX", dex.address);
+  // await DEX.init(ethers.utils.parseEther('1'),{value:ethers.utils.parseEther('1')})
 
   /*
     // Getting a previously deployed contract

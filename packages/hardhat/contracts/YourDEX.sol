@@ -7,7 +7,7 @@ contract YourDEX {
 
     using SafeMath for uint256;
 
-    string public purpose = "Swapping Rabbits";
+    string public purpose = "Swapping Rabbit";
     IERC20 rabbits;
 
     constructor(address tokenAddress) public {
